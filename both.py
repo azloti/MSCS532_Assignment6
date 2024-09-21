@@ -1,5 +1,6 @@
 import math
 import random
+import time
 
 class Algorithm:
     DETERMINISTIC = 1
@@ -66,11 +67,47 @@ def kthSmallest(array, left, right, k, algorithm):
 
     return math.inf
 
-def main():
-    arr = [12, 3, 5, 7, 4, 19, 26]
-    n = len(arr)
-    k = 3
-    algorithm = Algorithm.DETERMINISTIC
-    print("K-th smallest element is", kthSmallest(arr, 0, n - 1, k, algorithm))
+# Function to log the time taken to run a function in ms
+def timeFunction(func, *args):
+    start = time.time()
+    result = func(*args)
+    end = time.time()
+    print("Time taken:", (end - start) * 1000, "ms")
+    return result
 
+def main():
+    print("Random integers:")
+    # An array of 1000 random integers
+    array = random.sample(range(1, 10000), 9999)
+    k = 15 # The k-th smallest element to find
+
+    print("Deterministic:")
+    timeFunction(kthSmallest, array.copy(), 0, len(array) - 1, k, Algorithm.DETERMINISTIC)
+
+    # Find the k-th smallest element in the array using the randomized approach
+    print("Randomized:")
+    timeFunction(kthSmallest, array.copy(), 0, len(array) - 1, k, Algorithm.RANDOMIZED)
+
+    print("\n\nSorted integers:")
+
+    array.sort() # Sort the array
+
+    print("Deterministic:")
+    timeFunction(kthSmallest, array.copy(), 0, len(array) - 1, k, Algorithm.DETERMINISTIC)
+
+    print("Randomized:")
+    timeFunction(kthSmallest, array.copy(), 0, len(array) - 1, k, Algorithm.RANDOMIZED)
+
+    # Reverse the array
+    array.reverse()
+
+    print("\n\nReversed integers:")
+    print("Deterministic:")
+    timeFunction(kthSmallest, array.copy(), 0, len(array) - 1, k, Algorithm.DETERMINISTIC)
+
+    print("Randomized:")
+    timeFunction(kthSmallest, array.copy(), 0, len(array) - 1, k, Algorithm.RANDOMIZED)
+
+
+    
 main()
